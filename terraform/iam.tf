@@ -23,7 +23,7 @@ resource "aws_iam_role" "lambda_minecraft_role" {
 resource "aws_iam_role_policy" "lambda_minecraft_policy" {
   name = "lambda_minecraft_policy"
   role = aws_iam_role.lambda_minecraft_role.id
-  
+
   policy = jsonencode(
     {
       "Version" : "2012-10-17",

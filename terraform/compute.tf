@@ -17,20 +17,6 @@ resource "aws_security_group" "minecraft_bedrock" {
     protocol    = "udp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  ingress {
-    description = "Receive http from everywhere."
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    description = "Receive https from everywhere."
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
   egress {
     description = "Send everywhere."
     from_port   = 0
