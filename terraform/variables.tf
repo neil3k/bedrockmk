@@ -17,3 +17,8 @@ variable "instance_size" {
   type    = string
   default = "t2.small"
 }
+
+variable "domain" {
+  type    = string
+  default = "pattersonminecraft.com"
+}
