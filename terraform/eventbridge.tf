@@ -6,7 +6,7 @@ resource "aws_scheduler_schedule" "stop_minecraft" {
     mode = "OFF"
   }
 
-  schedule_expression = "rate(1 hours)"
+  schedule_expression = "cron(0 20 * * ? *)"
 
   target {
     arn      = aws_lambda_function.stop_minecraft.arn
@@ -22,7 +22,7 @@ resource "aws_scheduler_schedule" "start_minecraft" {
     mode = "OFF"
   }
 
-  schedule_expression = "rate(1 hours)"
+  schedule_expression = "cron(0 15 * * ? *)"
 
   target {
     arn      = aws_lambda_function.start_minecraft.arn
