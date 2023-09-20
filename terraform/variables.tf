@@ -22,3 +22,8 @@ variable "domain" {
   type    = string
   default = "pattersonminecraft.com"
 }
+
+variable "wwwdomain" {
+  type = string
+  default = "www.pattersonminecraft.com"
+}

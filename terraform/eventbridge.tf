@@ -1,31 +1,31 @@
-resource "aws_cloudwatch_event_rule" "stop_instances" {
-  name                = "StopInstance"
-  description         = "Stop instances nightly"
-  schedule_expression = "cron(22 0 * * ? *)"
+resource "aws_scheduler_schedule" "stop_minecraft" {
+  name       = "stop_minecraft"
+  group_name = "default"
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  schedule_expression = "rate(1 hours)"
+
+  target {
+    arn      = aws_lambda_function.stop_minecraft.arn
+    role_arn = aws_iam_role.scheduler_minecraft_role.arn
+  }
 }
 
-resource "aws_cloudwatch_event_target" "stop_lambda" {
-  arn  = aws_lambda_function.stop_minecraft.arn
-  rule = aws_cloudwatch_event_rule.stop_instances.id
-}
+resource "aws_scheduler_schedule" "start_minecraft" {
+  name       = "start_minecraft"
+  group_name = "default"
 
-resource "aws_cloudwatch_event_target" "stop_notification" {
-  arn  = aws_sns_topic.user_updates.id
-  rule = aws_cloudwatch_event_rule.stop_instances.name
-}
+  flexible_time_window {
+    mode = "OFF"
+  }
 
-resource "aws_cloudwatch_event_rule" "start_instances" {
-  name                = "StartInstance"
-  description         = "Start instances nightly"
-  schedule_expression = "cron(15 0 * * ? *)"
-}
+  schedule_expression = "rate(1 hours)"
 
-resource "aws_cloudwatch_event_target" "start_lambda" {
-  arn  = aws_lambda_function.start_minecraft.arn
-  rule = aws_cloudwatch_event_rule.start_instances.id
-}
-
-resource "aws_cloudwatch_event_target" "start_notification" {
-  arn  = aws_sns_topic.user_updates.id
-  rule = aws_cloudwatch_event_rule.start_instances.name
+  target {
+    arn      = aws_lambda_function.start_minecraft.arn
+    role_arn = aws_iam_role.scheduler_minecraft_role.arn
+  }
 }
