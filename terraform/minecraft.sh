@@ -4,8 +4,8 @@ sudo apt install unzip
 sudo mkdir /usr/games/minecraft
 
 cd /usr/games/minecraft
-sudo wget https://minecraft.azureedge.net/bin-linux/bedrock-server-1.20.15.01.zip
-sudo unzip bedrock-server-1.20.15.01.zip
+sudo wget https://minecraft.azureedge.net/bin-linux/bedrock-server-1.20.30.02.zip
+sudo unzip bedrock-server-1.20.30.02.zip
 
 cd /lib/systemd/system
 touch minecraft.service
