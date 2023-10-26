@@ -37,8 +37,8 @@ resource "aws_instance" "Minecraft" {
   ami                         = "ami-007ec828a062d87a5"
   instance_type               = var.instance_size
   subnet_id                   = data.aws_subnet.this.id
-  associate_public_ip_address = false
-  iam_instance_profile        = "neilsec2ssm"
+  associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.ssm_ec2.id
   key_name                    = data.aws_key_pair.minecraft.key_name
   vpc_security_group_ids      = [aws_security_group.minecraft_bedrock.id]
   user_data                   = file("minecraft.sh")

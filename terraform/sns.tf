@@ -7,3 +7,9 @@ resource "aws_sns_topic_subscription" "minecraft_sub" {
   protocol  = "sms"
   topic_arn = aws_sns_topic.user_updates.id
 }
+
+resource "aws_sns_topic_subscription" "minecraft_jodie" {
+  endpoint  = "+447598467213"
+  protocol  = "sms"
+  topic_arn = aws_sns_topic.user_updates.id
+}

@@ -1,5 +1,5 @@
 data "aws_route53_zone" "minecraft" {
-  name         = var.domain
+  name = var.domain
 }
 
 resource "aws_route53_record" "A" {
@@ -12,7 +12,7 @@ resource "aws_route53_record" "A" {
 
 resource "aws_route53_record" "Awww" {
   zone_id = data.aws_route53_zone.minecraft.id
-  name    = var.wwwdomain
+  name    = "www.${var.domain}"
   type    = "A"
   ttl     = 300
   records = [aws_eip.Minecraft_bedrock.public_ip]
