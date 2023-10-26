@@ -5,7 +5,6 @@ resource "aws_lambda_function" "start_minecraft" {
   filename      = "lambda.zip"
   handler       = "lambda_start.lambda_handler"
 
-
   environment {
     variables = {
       instances = aws_instance.Minecraft.id
@@ -19,7 +18,6 @@ resource "aws_lambda_function" "stop_minecraft" {
   runtime       = "python3.9"
   filename      = "lambda.zip"
   handler       = "lambda_stop.lambda_handler"
-
 
   environment {
     variables = {

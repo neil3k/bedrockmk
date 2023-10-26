@@ -11,6 +11,13 @@ resource "aws_security_group" "minecraft_bedrock" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
+    description = "Receive ssh from everywhere."
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
     description = "Receive Minecraft from everywhere."
     from_port   = 19132
     to_port     = 19132
@@ -47,14 +54,31 @@ resource "aws_instance" "Minecraft" {
     Name = "Bedrock Minecraft Server"
   }
 
-  depends_on = [aws_security_group.minecraft_bedrock]
+  provisioner "file" {
+    source      = file("upgrade.sh")
+    destination = "/usr/games/"
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      host        = aws_eip.Minecraft_bedrock.public_ip
+      private_key = file("minecraft.ppk")
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /usr/games/upgrade.sh"
+    ]
+  }
 }
 
 resource "aws_eip" "Minecraft_bedrock" {
-  instance = aws_instance.Minecraft.id
-
   tags = {
     Name = "MineCraft IP"
   }
-  depends_on = [aws_instance.Minecraft]
+}
+
+resource "aws_eip_association" "eip_minecraft" {
+  instance_id   = aws_instance.Minecraft.id
+  allocation_id = aws_eip.Minecraft_bedrock.id
 }

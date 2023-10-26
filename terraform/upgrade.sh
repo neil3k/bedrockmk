@@ -31,4 +31,3 @@ cp bedrock_server /usr/games/minecraft
 sleep 5
 
 systemctl start minecraft.service
-
