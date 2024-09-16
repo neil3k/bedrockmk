@@ -10,3 +10,7 @@ data "aws_vpc" "selected" {
 data "aws_subnet" "this" {
   id = var.subnet_id
 }
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}

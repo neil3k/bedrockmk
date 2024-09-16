@@ -15,10 +15,16 @@ variable "mojang_server_url" {
 
 variable "instance_size" {
   type    = string
-  default = "t2.small"
+  default = "t3.small"
 }
 
 variable "domain" {
   type    = string
   default = "pattersonminecraft.com"
 }
+
+variable "aws_region" {
+  type    = string
+  default = "eu-west-2"
+}
+

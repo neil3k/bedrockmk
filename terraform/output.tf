@@ -9,3 +9,11 @@ output "instance_id" {
 output "instance_arn" {
   value = aws_instance.Minecraft.arn
 }
+
+output "instance_type" {
+  value = aws_instance.Minecraft.instance_type
+}
+
+output "availability_zone" {
+  value = aws_instance.Minecraft.availability_zone
+}

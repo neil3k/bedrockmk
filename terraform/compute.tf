@@ -1,4 +1,3 @@
-
 resource "aws_security_group" "minecraft_bedrock" {
   name   = "Bedrock Minecraft Server"
   vpc_id = data.aws_vpc.selected.id
@@ -39,6 +38,7 @@ resource "aws_security_group" "minecraft_bedrock" {
 data "aws_key_pair" "minecraft" {
   key_name = "minecraft"
 }
+
 
 resource "aws_instance" "Minecraft" {
   ami                         = "ami-007ec828a062d87a5"
