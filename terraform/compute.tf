@@ -54,21 +54,8 @@ resource "aws_instance" "Minecraft" {
     Name = "Bedrock Minecraft Server"
   }
 
-  provisioner "file" {
-    source      = file("upgrade.sh")
-    destination = "/usr/games/"
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      host        = aws_eip.Minecraft_bedrock.public_ip
-      private_key = file("minecraft.ppk")
-    }
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo chmod +x /usr/games/upgrade.sh"
-    ]
+  lifecycle {
+    ignore_changes = [user_data]
   }
 }
 
