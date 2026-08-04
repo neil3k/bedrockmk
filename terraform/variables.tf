@@ -8,11 +8,6 @@ variable "subnet_id" {
   default = "subnet-0def9a532dead7400"
 }
 
-variable "mojang_server_url" {
-  type    = string
-  default = "https://piston-data.mojang.com/v1/objects/84194a2f286ef7c14ed7ce0090dba59902951553/server.jar"
-}
-
 variable "instance_size" {
   type    = string
   default = "t3.small"

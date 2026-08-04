@@ -43,6 +43,14 @@ resource "aws_iam_role_policy" "lambda_minecraft_policy" {
             "ec2:Stop*"
           ],
           "Resource" : "*"
+        },
+        {
+          "Effect" : "Allow",
+          "Action" : [
+            "ssm:SendCommand",
+            "ssm:GetCommandInvocation"
+          ],
+          "Resource" : "*"
         }
       ]
     }
@@ -84,12 +92,15 @@ resource "aws_iam_role_policy" "scheduler_role_policy" {
           ],
           "Resource" : [
             "arn:aws:lambda:eu-west-2:320861227871:function:start_minecraft:*",
-            "arn:aws:lambda:eu-west-2:320861227871:function:start_minecraft"
+            "arn:aws:lambda:eu-west-2:320861227871:function:start_minecraft",
+            "arn:aws:lambda:eu-west-2:320861227871:function:stop_minecraft:*",
+            "arn:aws:lambda:eu-west-2:320861227871:function:stop_minecraft",
+            "arn:aws:lambda:eu-west-2:320861227871:function:backup_minecraft:*",
+            "arn:aws:lambda:eu-west-2:320861227871:function:backup_minecraft"
           ]
         }
       ]
     }
-
   )
 }
 
