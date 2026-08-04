@@ -224,12 +224,20 @@ resource "aws_sns_topic_subscription" "patch_email_notification" {
 # CloudWatch event rule for patch compliance notifications
 resource "aws_cloudwatch_event_rule" "patch_compliance" {
   name        = "minecraft-patch-compliance"
-  description = "Notify on patch compliance changes"
+  description = "Monitor patch compliance for Minecraft server"
 
   event_pattern = jsonencode({
     source      = ["aws.ssm"]
-    detail-type = ["Command Status-status Change Notification"]
+    detail-type = ["EC2 Command Status-change Notification", "EC2 Command Invocation Status-change Notification"]
+    detail = {
+      document-name = ["AWS-RunPatchBaseline"]
+      status        = ["Success", "Failed", "InProgress", "Cancelled", "TimedOut"]
+    }
   })
+
+  tags = {
+    Name = "minecraft-patch-compliance-rule"
+  }
 }
 
 resource "aws_cloudwatch_event_target" "patch_notification_target" {
@@ -251,6 +259,45 @@ resource "aws_cloudwatch_event_target" "patch_notification_target" {
       command_id   = "<command>"
       timestamp    = "<time>"
       message      = "Patch operation <status> on Minecraft server instance <instance> at <time>"
+    })
+  }
+}
+
+# CloudWatch event rule for maintenance window execution
+resource "aws_cloudwatch_event_rule" "maintenance_window_execution" {
+  name        = "minecraft-maintenance-window-execution"
+  description = "Monitor maintenance window execution for Minecraft server"
+
+  event_pattern = jsonencode({
+    source      = ["aws.ssm"]
+    detail-type = ["Maintenance Window State Change", "Maintenance Window Target Registration Change", "Maintenance Window Execution State Change"]
+    detail = {
+      window-id = [aws_ssm_maintenance_window.minecraft_maintenance.id]
+    }
+  })
+
+  tags = {
+    Name = "minecraft-maintenance-window-rule"
+  }
+}
+
+resource "aws_cloudwatch_event_target" "maintenance_notification_target" {
+  rule      = aws_cloudwatch_event_rule.maintenance_window_execution.name
+  target_id = "SendMaintenanceToSNS"
+  arn       = aws_sns_topic.patch_notifications.arn
+
+  input_transformer {
+    input_paths = {
+      window_id = "$.detail.window-id"
+      status    = "$.detail.status"
+      time      = "$.time"
+    }
+    input_template = jsonencode({
+      notification = "Minecraft Server Maintenance Window Update"
+      window_id    = "<window_id>"
+      status       = "<status>"
+      timestamp    = "<time>"
+      message      = "Maintenance window execution <status> for Minecraft server at <time>"
     })
   }
 }
