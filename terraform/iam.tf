@@ -123,6 +123,29 @@ resource "aws_iam_role" "ec2_ssm" {
   })
 }
 
+resource "aws_iam_role_policy" "ec2_s3_backup" {
+  name = "ec2_s3_backup_policy"
+  role = aws_iam_role.ec2_ssm.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket"
+        ]
+        Resource = [
+          aws_s3_bucket.minecraft_backups.arn,
+          "${aws_s3_bucket.minecraft_backups.arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy_attachment" "maint_window" {
   roles      = [aws_iam_role.ec2_ssm.id]
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonSSMMaintenanceWindowRole"
