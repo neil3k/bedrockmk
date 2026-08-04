@@ -41,7 +41,7 @@ data "aws_key_pair" "minecraft" {
 
 
 resource "aws_instance" "Minecraft" {
-  ami                         = "ami-007ec828a062d87a5"
+  ami                         = "ami-018ff7ece22bf96db"
   instance_type               = var.instance_size
   subnet_id                   = data.aws_subnet.this.id
   associate_public_ip_address = true
@@ -55,7 +55,7 @@ resource "aws_instance" "Minecraft" {
   }
 
   lifecycle {
-    ignore_changes = [user_data]
+    ignore_changes = [user_data, ami]
   }
 }
 

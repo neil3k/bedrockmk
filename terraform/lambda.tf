@@ -57,3 +57,19 @@ resource "aws_lambda_function" "upgrade_minecraft" {
     }
   }
 }
+
+resource "aws_lambda_permission" "allow_scheduler_start" {
+  statement_id  = "AllowExecutionFromScheduler"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.start_minecraft.function_name
+  principal     = "scheduler.amazonaws.com"
+  source_arn    = aws_scheduler_schedule.start_minecraft.arn
+}
+
+resource "aws_lambda_permission" "allow_scheduler_stop" {
+  statement_id  = "AllowExecutionFromScheduler"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.stop_minecraft.function_name
+  principal     = "scheduler.amazonaws.com"
+  source_arn    = aws_scheduler_schedule.stop_minecraft.arn
+}

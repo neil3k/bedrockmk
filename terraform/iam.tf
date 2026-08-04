@@ -132,7 +132,7 @@ resource "aws_iam_policy_attachment" "maint_window" {
 resource "aws_iam_policy_attachment" "ssm_core" {
   name       = "managed_ssm_core"
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-  roles      = [aws_iam_role.ec2_ssm.id]
+  roles      = [aws_iam_role.ec2_ssm.id, "AmazonSSMRoleForInstancesQuickSetup"]
 }
 
 
