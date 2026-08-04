@@ -28,3 +28,8 @@ variable "aws_region" {
   default = "eu-west-2"
 }
 
+variable "notification_numbers" {
+  type        = list(string)
+  description = "Phone numbers for SNS notifications"
+  sensitive   = true
+}

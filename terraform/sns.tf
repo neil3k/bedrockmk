@@ -3,13 +3,13 @@ resource "aws_sns_topic" "user_updates" {
 }
 
 resource "aws_sns_topic_subscription" "minecraft_sub" {
-  endpoint  = "+447867787231"
+  endpoint  = var.notification_numbers[0]
   protocol  = "sms"
   topic_arn = aws_sns_topic.user_updates.id
 }
 
 resource "aws_sns_topic_subscription" "minecraft_jodie" {
-  endpoint  = "+447598467213"
+  endpoint  = var.notification_numbers[1]
   protocol  = "sms"
   topic_arn = aws_sns_topic.user_updates.id
 }
