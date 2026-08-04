@@ -96,7 +96,9 @@ resource "aws_iam_role_policy" "scheduler_role_policy" {
             "arn:aws:lambda:eu-west-2:320861227871:function:stop_minecraft:*",
             "arn:aws:lambda:eu-west-2:320861227871:function:stop_minecraft",
             "arn:aws:lambda:eu-west-2:320861227871:function:backup_minecraft:*",
-            "arn:aws:lambda:eu-west-2:320861227871:function:backup_minecraft"
+            "arn:aws:lambda:eu-west-2:320861227871:function:backup_minecraft",
+            "arn:aws:lambda:eu-west-2:320861227871:function:upgrade_minecraft:*",
+            "arn:aws:lambda:eu-west-2:320861227871:function:upgrade_minecraft"
           ]
         }
       ]

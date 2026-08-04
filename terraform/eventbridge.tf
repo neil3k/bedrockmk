@@ -49,3 +49,21 @@ resource "aws_scheduler_schedule" "backup_minecraft" {
     role_arn = aws_iam_role.scheduler_minecraft_role.arn
   }
 }
+
+# Weekly auto-upgrade check (Wednesdays at 14:30, before server starts)
+resource "aws_scheduler_schedule" "upgrade_minecraft" {
+  name       = "upgrade_minecraft"
+  group_name = "default"
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  schedule_expression          = "cron(30 14 ? * WED *)"
+  schedule_expression_timezone = "Europe/London"
+
+  target {
+    arn      = aws_lambda_function.upgrade_minecraft.arn
+    role_arn = aws_iam_role.scheduler_minecraft_role.arn
+  }
+}

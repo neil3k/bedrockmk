@@ -41,3 +41,19 @@ resource "aws_lambda_function" "backup_minecraft" {
     }
   }
 }
+
+resource "aws_lambda_function" "upgrade_minecraft" {
+  function_name = "upgrade_minecraft"
+  role          = aws_iam_role.lambda_minecraft_role.arn
+  runtime       = "python3.12"
+  filename      = "lambda.zip"
+  handler       = "lambda_upgrade.lambda_handler"
+  timeout       = 300
+
+  environment {
+    variables = {
+      instance_id   = aws_instance.Minecraft.id
+      backup_bucket = aws_s3_bucket.minecraft_backups.id
+    }
+  }
+}
